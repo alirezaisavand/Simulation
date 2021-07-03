@@ -1,8 +1,12 @@
 class Event:
     def __init__(self, time):
         self.time = time
+
     def handle_event(self):
         pass
+
+    def __lt__(self, other):
+        return self.time < other.time
 
 class Arrival(Event):
     def handle_event(self):
