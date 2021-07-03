@@ -5,6 +5,7 @@ import heapq
 
 
 class Simulator:
+    time = 0
     def __init__(self, N, lam, alpha, mu, MUs, max_priority):
         # definition of departures
         self.Departments = []

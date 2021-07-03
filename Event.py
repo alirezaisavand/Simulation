@@ -1,5 +1,8 @@
 class Event:
     def __init__(self, time):
+
+        # todo we have to add an attribute to show if a customer has left the system and its event is expired
+        self.expired = False
         self.time = time
 
     def handle_event(self):
