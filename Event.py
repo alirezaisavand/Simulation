@@ -1,3 +1,6 @@
+import Simulator
+import numpy as np
+
 class Event:
     def __init__(self, time):
 
@@ -13,9 +16,11 @@ class Event:
 
 class Arrival(Event):
     def handle_event(self):
+        pass
 
 class Reception(Event):
     def handle_event(self):
+        pass
 
 class End_service(Event):
     def __init__(self, part, server, time):
@@ -23,3 +28,4 @@ class End_service(Event):
         self.server = server
         Event.__init__(self, time=time)
     def handle_event(self):
+        pass
