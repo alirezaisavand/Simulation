@@ -8,3 +8,6 @@ class Server():
 
     def get_service_time(self):
         return int(np.random.exponential(self.miu))
+
+    def change_status(self, status):
+        self.available = status
