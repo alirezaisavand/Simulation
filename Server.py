@@ -6,8 +6,8 @@ class Server():
         self.mu = mu
         self.available = True
 
-    def get_service_time(self):
-        return int(np.random.exponential(self.miu))
+    def set_available(self, is_available):
+        self.available = is_available
 
-    def change_status(self, status):
-        self.available = status
+    def get_service_time(self):
+        return int(np.random.exponential(1 / self.mu))
