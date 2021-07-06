@@ -61,7 +61,7 @@ class EndReception(Event):
     def get_results(self):
         results = []
 
-        res = self.customer.add_to_department(self.customer)
+        res = self.customer.department.add_to_department(self.customer)
         if res is not None:
             results.append(res)
 

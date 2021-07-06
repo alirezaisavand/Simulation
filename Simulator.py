@@ -74,4 +74,6 @@ class Simulator:
 
     @staticmethod
     def add_system_time(time):
+        if time not in Simulator.system_times:
+            Simulator.system_times[time] = 0
         Simulator.system_times[time] += 1

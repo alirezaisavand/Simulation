@@ -10,10 +10,14 @@ class Priority:
         self.waiting_times = {}
 
     def add_waiting_time(self, time):
+        if time not in self.waiting_times:
+            self.waiting_times[time] = 0
         self.waiting_times[time] += 1
         self.sum_of_waiting_times += time
 
     def add_service_time(self, time):
+        if time not in self.service_times:
+            self.service_times[time] = 0
         self.service_times[time] += 1
 
     def add_system_time(self, time):
@@ -27,5 +31,5 @@ class Priority:
         Priority.priorities.append(priority)
 
     @staticmethod
-    def get_priority_by_number(customer):
-        return Priority.priorities[customer.priority]
+    def get_priority_by_number(priority_number):
+        return Priority.priorities[priority_number]
