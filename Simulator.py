@@ -11,6 +11,8 @@ class Simulator:
     number_of_customers = 0
     max_number_of_customers = 0
     max_priority = 0
+    number_of_left_customers = 0
+    system_times = {}
 
     def __init__(self, N, lam, alpha, mu, MUs, max_priority, max_number_of_customers):
         # definition of departures
@@ -65,3 +67,11 @@ class Simulator:
     def get_event(self):
         event = heapq.heappop(self.events)
         return event
+
+    @staticmethod
+    def increase_number_of_left_customers():
+        Simulator.number_of_left_customers += 1
+
+    @staticmethod
+    def add_system_time(time):
+        Simulator.system_times[time] += 1

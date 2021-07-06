@@ -25,3 +25,7 @@ class Priority:
     @staticmethod
     def add_priority(priority):
         Priority.priorities.append(priority)
+
+    @staticmethod
+    def get_priority_by_number(customer):
+        return Priority.priorities[customer.priority]

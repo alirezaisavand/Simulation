@@ -3,6 +3,7 @@ import numpy as np
 import Department
 import Customer
 import Reception
+import Priority
 
 
 class Event:
@@ -24,8 +25,15 @@ class Event:
 
 class Arrival(Event):
     def handle_event(self):
+        self.update_simulation_variables()
+
+        return self.get_results()
+
+    def update_simulation_variables(self):
+        # todo waiting times still remain
         Simulator.Simulator.number_of_customers += 1
 
+    def get_results(self):
         results = []
 
         if Simulator.Simulator.number_of_customers < Simulator.Simulator.max_number_of_customers:
@@ -48,9 +56,12 @@ class EndReception(Event):
         department = np.random.choice(Department.Department.departments)
         self.customer.set_department(department)
 
+        return self.get_results()
+
+    def get_results(self):
         results = []
 
-        res = department.add_to_department(self.customer)
+        res = self.customer.add_to_department(self.customer)
         if res is not None:
             results.append(res)
 
@@ -60,21 +71,49 @@ class EndReception(Event):
 
         return results
 
+    def update_simulation_variables(self):
+        pass
+
 
 class EndService(Event):
     def handle_event(self):
         self.customer.set_exit_time(self.time)
         self.customer.server.set_available(True)
+
+        return self.get_results()
+
+    def get_results(self):
         results = []
         res = self.customer.department.process()
         if res is not None:
             results.append(res)
         return results
 
+    def update_simulation_variables(self):
+        Priority.Priority.get_priority_by_number(self.customer.priority).add_system_time(
+            self.customer.get_system_time())
+        Priority.Priority.get_priority_by_number(self.customer.priority).add_number_of_customers()
+        Simulator.Simulator.add_system_time(self.customer.get_system_time())
+
 
 class LeaveSystem(Event):
     def handle_event(self):
         self.customer.set_exit_time(self.time)
+
+        # updating simulations variables
+        self.update_simulation_variables()
+
+        # return results of event
+        return self.get_results()
+
+    def update_simulation_variables(self):
+        Simulator.Simulator.increase_number_of_left_customers()
+        Priority.Priority.get_priority_by_number(self.customer.priority).add_system_time(
+            self.customer.get_system_time())
+        Priority.Priority.get_priority_by_number(self.customer.priority).add_number_of_customers()
+        Simulator.Simulator.add_system_time(self.customer.get_system_time())
+
+    def get_results(self):
         results = []
         if not self.customer.started_reception:
             Reception.Reception.reception.change_capacity(-1)

@@ -27,6 +27,9 @@ class Customer:
     def set_exit_time(self, time):
         self.exit_time = time
 
+    def get_system_time(self):
+        return self.exit_time - self.arrival_time
+
     @staticmethod
     def generate_priority():
         r = np.random.rand()
