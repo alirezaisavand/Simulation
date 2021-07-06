@@ -5,7 +5,7 @@ import Event
 from collections import deque
 
 
-class Department():
+class Department:
     departments = []
 
     def __init__(self, MUs, max_priority):
@@ -69,7 +69,7 @@ class Department():
         return Event.EndService(customer, Simulator.Simulator.time + server.get_service_time())
 
     def modify_avg(self):
-        #todo
+        # todo
         return
 
     @staticmethod

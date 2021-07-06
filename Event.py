@@ -30,7 +30,7 @@ class Arrival(Event):
 
         if Simulator.Simulator.number_of_customers < Simulator.Simulator.max_number_of_customers:
             customer = Customer.Customer(Simulator.Simulator.time)
-            results.append(Event.Arrival(customer, customer.arrival_time))
+            results.append(Arrival(customer, customer.arrival_time))
 
         res = Reception.Reception.reception.add_customer(self.customer)
         if res is not None:
@@ -46,7 +46,7 @@ class EndReception(Event):
         Reception.Reception.reception.set_available(True)
 
         department = np.random.choice(Department.Department.departments)
-        self.customer.set_departmnet(department)
+        self.customer.set_department(department)
 
         results = []
 

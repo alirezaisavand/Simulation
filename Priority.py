@@ -1,4 +1,4 @@
-class Priority():
+class Priority:
     priorities = []
 
     def __init__(self, number):

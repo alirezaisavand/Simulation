@@ -18,10 +18,10 @@ class Simulator:
             Priority.Priority.add_priority(Priority.Priority(i))
 
         for i in range(N):
-            Department.Department.add_department(Department(MUs[i], max_priority))  # todo
+            Department.Department.add_department(Department.Department(MUs[i], max_priority))  # todo
 
         # definition of reception
-        Reception.set_reception(Reception.Reception(mu))
+        Reception.Reception.set_reception(Reception.Reception(mu))
 
         # set up customers
         Customer.Customer.lam = lam

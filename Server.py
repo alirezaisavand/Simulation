@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Server():
+class Server:
     def __init__(self, mu):
         self.mu = mu
         self.available = True
