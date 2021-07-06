@@ -10,4 +10,4 @@ class Server():
         self.available = is_available
 
     def get_service_time(self):
-        return int(np.random.exponential(1 / self.mu))
+        return int(np.random.exponential(self.mu))

@@ -9,9 +9,8 @@ class Event:
     def __init__(self, customer, time):
         # todo we have to add an attribute to show if a customer has left the system and its event is expired
         # we can find out from customer exit time: exit_time != -1 -> expired
-        # self.expired = False
-        self.time = time
         self.customer = customer
+        self.time = time
 
     def handle_event(self):
         pass
@@ -30,7 +29,8 @@ class Arrival(Event):
         results = []
 
         if Simulator.Simulator.number_of_customers < Simulator.Simulator.max_number_of_customers:
-            results.append(Event.Arrival(Customer.Customer(Simulator.Simulator.time), Simulator.Simulator.time))
+            customer = Customer.Customer(Simulator.Simulator.time)
+            results.append(Event.Arrival(customer, customer.arrival_time))
 
         res = Reception.Reception.reception.add_customer(self.customer)
         if res is not None:
@@ -75,14 +75,19 @@ class EndService(Event):
 class LeaveSystem(Event):
     def handle_event(self):
         self.customer.set_exit_time(self.time)
+        results = []
         if not self.customer.started_reception:
             Reception.Reception.change_capacity(-1)
-        elif self.customer.department == None:
+        elif self.customer.department is None:
             Reception.Reception.reception.set_available(True)
-            return Reception.Reception.reception.process()
-        elif self.customer.server == None:
+            res = Reception.Reception.reception.process()
+            if res is not None:
+                results.append(res)
+        elif self.customer.server is None:
             self.customer.department.change_capacity(-1)
         else:
             self.customer.server.set_available(True)
-            return self.customer.department.process()
-        return None
+            res2 = self.customer.department.process()
+            if res2 is not None:
+                results.append(res2)
+        return results

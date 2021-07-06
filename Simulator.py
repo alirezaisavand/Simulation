@@ -5,18 +5,20 @@ import heapq
 import Event
 import Priority
 
+
 class Simulator:
     time = 0
     number_of_customers = 0
     max_number_of_customers = 0
     max_priority = 0
+
     def __init__(self, N, lam, alpha, mu, MUs, max_priority, max_number_of_customers):
         # definition of departures
         for i in range(max_priority + 1):
             Priority.Priority.add_priority(Priority.Priority(i))
 
         for i in range(N):
-            Department.Department.add_department(Department(MUs[i], max_priority)) # todo
+            Department.Department.add_department(Department(MUs[i], max_priority))  # todo
 
         # definition of reception
         Reception.set_reception(Reception.Reception(mu))
@@ -39,8 +41,12 @@ class Simulator:
 
         while len(self.events) > 0:
             event = self.get_event()
+
             if event.is_expired():
                 continue
+
+            self.time = event.time
+
             results = event.handle_event()
             for result in results:
                 self.add_event(result)
@@ -50,7 +56,8 @@ class Simulator:
         return
 
     def start_simulation(self):
-        self.events.append(Event.Arrival(Customer.Customer(self.time), self.time))
+        customer = Customer.Customer(self.time)
+        self.events.append(Event.Arrival(customer, customer.arrival_time))
 
     def add_event(self, event):
         heapq.heappush(self.events, event)

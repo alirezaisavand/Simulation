@@ -7,5 +7,5 @@ if __name__ == '__main__':
     for i in range(N):
         MUs.append(list(map(int, input())))
 
-    simulator = Simulator.Simulator(N, lam, alpha, mu, MUs)
+    simulator = Simulator.Simulator(N, lam, alpha, mu, MUs, 4, 10*1000*1000)
     simulator.simulate()

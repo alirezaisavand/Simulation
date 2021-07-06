@@ -1,11 +1,13 @@
 import numpy as np
 
+
 class Customer:
     lam = 0
     alpha = 0
     priority_CDF = [0.50, 0.70, 0.85, 0.95, 1.0]
+
     def __init__(self, time):
-        self.patience = np.random.exponential(1 / Customer.alpha)
+        self.patience = np.random.exponential(Customer.alpha)
         self.arrival_time = int(time + np.random.exponential(Customer.lam))
         self.priority = self.generate_priority()
         self.exit_time = -1

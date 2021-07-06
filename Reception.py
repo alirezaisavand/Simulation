@@ -34,7 +34,7 @@ class Reception:
         return customer
 
     def change_capacity(self, value):
-        # warning: pay attention to zero-lengh intervals
+        # warning: pay attention to zero-length intervals
         self.queue.append((self.customers_in_queue, Simulator.Simulator.time - self.last_time))
         self.last_time = Simulator.Simulator.time
         self.customers_in_queue += value
@@ -48,12 +48,13 @@ class Reception:
 
         self.available = False
 
-        return Event.EndReception(customer, self.get_service_time() + Simulator.Simulator.time)
+        return Event.EndReception(customer, Simulator.Simulator.time + self.get_service_time())
 
     def set_available(self, is_available):
         self.available = is_available
 
     def get_service_time(self):
+        # todo correct the rates and scales of exponential random numbers
         return int(np.random.exponential(self.mu))
 
     @staticmethod

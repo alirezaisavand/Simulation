@@ -4,8 +4,10 @@ import numpy as np
 import Event
 from collections import deque
 
+
 class Department():
     departments = []
+
     def __init__(self, MUs, max_priority):
         self.last_time = 0
         self.servers = []
@@ -20,20 +22,23 @@ class Department():
         self.customers_in_queue = 0
         self.lengths_of_queue = []
 
-    def change_capacity(self, value):
-        self.lengths_of_queue.append((self.customers_in_queue, Simulator.Simulator.time - self.last_time))
-        self.customers_in_queue += value
-        self.last_time = Simulator.Simulator.time
-
+    def add_to_department(self, customer):
+        self.add_to_queue(customer)
+        return self.process()
 
     def add_to_queue(self, customer):
         self.change_capacity(1)
         self.queues[customer.priority].append(customer)
 
+    def change_capacity(self, value):
+        self.lengths_of_queue.append((self.customers_in_queue, Simulator.Simulator.time - self.last_time))
+        self.customers_in_queue += value
+        self.last_time = Simulator.Simulator.time
+
     def get_first_customer(self):
         self.change_capacity(-1)
 
-        for i in range(self.max_priority,-1, -1):
+        for i in range(self.max_priority, -1, -1):
             if len(self.queues[i]) == 0:
                 continue
 
@@ -48,12 +53,7 @@ class Department():
         return None
 
     def get_available_severs(self):
-        return [server for server in self.servers if server.available()]
-
-    def add_to_department(self, customer):
-        self.add_to_queue(customer)
-        return self.process()
-
+        return [server for server in self.servers if server.available]
 
     def process(self):
         available_servers = self.get_available_severs()
@@ -66,13 +66,12 @@ class Department():
         customer = self.get_first_customer()
         customer.set_server(server)
 
-        return Event.EndService(self, server, self.time + server.get_service_time())
+        return Event.EndService(customer, Simulator.Simulator.time + server.get_service_time())
 
     def modify_avg(self):
+        #todo
         return
 
     @staticmethod
     def add_department(department):
         Department.departments.append(department)
-
-

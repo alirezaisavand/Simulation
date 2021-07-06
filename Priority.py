@@ -1,5 +1,6 @@
 class Priority():
     priorities = []
+
     def __init__(self, number):
         self.number = number
         self.number_of_customers = 0
@@ -11,7 +12,6 @@ class Priority():
     def add_waiting_time(self, time):
         self.waiting_times[time] += 1
         self.sum_of_waiting_times += time
-
 
     def add_service_time(self, time):
         self.service_times[time] += 1
@@ -25,4 +25,3 @@ class Priority():
     @staticmethod
     def add_priority(priority):
         Priority.priorities.append(priority)
-
