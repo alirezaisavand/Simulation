@@ -63,7 +63,7 @@ class EndReception(Event):
 
 class EndService(Event):
     def handle_event(self):
-        self.customer.exit_time = self.time
+        self.customer.set_exit_time(self.time)
         self.customer.server.set_available(True)
         results = []
         res = self.customer.department.process()
@@ -74,7 +74,7 @@ class EndService(Event):
 
 class LeaveSystem(Event):
     def handle_event(self):
-        self.customer.exit_time = self.time
+        self.customer.set_exit_time(self.time)
         if not self.customer.started_reception:
             Reception.Reception.change_capacity(-1)
         elif self.customer.department == None:

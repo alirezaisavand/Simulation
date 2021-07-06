@@ -3,6 +3,7 @@ import Reception
 import Customer
 import heapq
 import Event
+import Priority
 
 class Simulator:
     time = 0
@@ -11,6 +12,9 @@ class Simulator:
     max_priority = 0
     def __init__(self, N, lam, alpha, mu, MUs, max_priority, max_number_of_customers):
         # definition of departures
+        for i in range(max_priority + 1):
+            Priority.Priority.add_priority(Priority.Priority(i))
+
         for i in range(N):
             Department.Department.add_department(Department(MUs[i], max_priority)) # todo
 

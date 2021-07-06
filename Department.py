@@ -14,7 +14,7 @@ class Department():
 
         self.max_priority = max_priority
         self.queues = []
-        for i in range(max_priority):
+        for i in range(max_priority + 1):
             self.queues.append(deque())
 
         self.customers_in_queue = 0
@@ -33,7 +33,7 @@ class Department():
     def get_first_customer(self):
         self.change_capacity(-1)
 
-        for i in range(self.max_priority-1,-1, -1):
+        for i in range(self.max_priority,-1, -1):
             if len(self.queues[i]) == 0:
                 continue
 

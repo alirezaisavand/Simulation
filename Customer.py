@@ -5,7 +5,6 @@ class Customer:
     alpha = 0
     priority_CDF = [0.50, 0.70, 0.85, 0.95, 1.0]
     def __init__(self, time):
-        self.set_arrival_time(time)
         self.patience = np.random.exponential(1 / Customer.alpha)
         self.arrival_time = int(time + np.random.exponential(Customer.lam))
         self.priority = self.generate_priority()
@@ -29,3 +28,6 @@ class Customer:
 
     def set_started_reception(self):
         self.started_reception = True
+
+    def set_exit_time(self, time):
+        self.exit_time = time
