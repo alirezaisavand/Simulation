@@ -77,7 +77,7 @@ class LeaveSystem(Event):
         self.customer.set_exit_time(self.time)
         results = []
         if not self.customer.started_reception:
-            Reception.Reception.change_capacity(-1)
+            Reception.Reception.reception.change_capacity(-1)
         elif self.customer.department is None:
             Reception.Reception.reception.set_available(True)
             res = Reception.Reception.reception.process()

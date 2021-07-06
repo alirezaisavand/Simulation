@@ -12,7 +12,7 @@ class Reception:
         self.mu = mu
 
         self.queue = deque()
-
+        self.lengths_of_queue = []
         self.waiting_customers = 0
         self.last_time = 0
         self.available = True
@@ -35,7 +35,7 @@ class Reception:
 
     def change_capacity(self, value):
         # warning: pay attention to zero-length intervals
-        self.queue.append((self.customers_in_queue, Simulator.Simulator.time - self.last_time))
+        self.lengths_of_queue.append((self.customers_in_queue, Simulator.Simulator.time - self.last_time))
         self.last_time = Simulator.Simulator.time
         self.customers_in_queue += value
 
