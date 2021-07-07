@@ -33,6 +33,12 @@ class Customer:
     def get_system_time(self):
         return self.exit_time - self.arrival_time
 
+    def get_service_time(self):
+        return self.sum_of_service_times
+
+    def get_waiting_time(self):
+        return self.get_system_time() - self.get_service_time()
+
     def change_sum_of_service_times(self, value):
         self.sum_of_service_times += value
 

@@ -91,10 +91,9 @@ class EndService(Event):
         return results
 
     def update_simulation_variables(self):
-        Priority.Priority.get_priority_by_number(self.customer.priority).add_system_time(
-            self.customer.get_system_time())
-        Priority.Priority.get_priority_by_number(self.customer.priority).add_number_of_customers()
         Simulator.Simulator.add_system_time(self.customer.get_system_time())
+
+        Priority.Priority.get_priority_by_number(self.customer.priority).add_customer_results(self.customer)
 
 
 class LeaveSystem(Event):
@@ -115,10 +114,9 @@ class LeaveSystem(Event):
 
     def update_simulation_variables(self):
         Simulator.Simulator.increase_number_of_left_customers()
-        Priority.Priority.get_priority_by_number(self.customer.priority).add_system_time(
-            self.customer.get_system_time())
-        Priority.Priority.get_priority_by_number(self.customer.priority).add_number_of_customers()
         Simulator.Simulator.add_system_time(self.customer.get_system_time())
+
+        Priority.Priority.get_priority_by_number(self.customer.priority).add_customer_results(self.customer)
 
     def get_results(self):
         results = []

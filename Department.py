@@ -73,9 +73,11 @@ class Department:
 
         return Event.EndService(customer, Simulator.Simulator.time + service_time)
 
-    def modify_avg(self):
-        # todo
-        return
+    def modify_average_of_lengths(self):
+        sum_of_lengths = 0
+        for queue_len, time_len in self.lengths_of_queue:
+            sum_of_lengths += queue_len * time_len
+        return sum_of_lengths / Simulator.Simulator.time
 
     @staticmethod
     def add_department(department):

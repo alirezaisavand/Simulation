@@ -47,12 +47,13 @@ class Simulator:
             if event.is_expired():
                 continue
 
-            self.time = event.time
+            Simulator.time = event.time
 
             results = event.handle_event()
             for result in results:
                 self.add_event(result)
 
+        self.report_results()
         # todo demonstrate the result of this simulation
 
         return
@@ -71,6 +72,51 @@ class Simulator:
     @staticmethod
     def increase_number_of_left_customers():
         Simulator.number_of_left_customers += 1
+
+    @staticmethod
+    def report_results():
+        Simulator.report_system_time_results()
+        Simulator.report_waiting_time_results()
+        Simulator.report_left_customers()
+        Simulator.report_lengths_of_queues()
+
+    @staticmethod
+    def report_lengths_of_queues():
+        print("average length of main queue:")
+        print(Reception.Reception.reception.modify_average_of_lengths())
+
+        for i, department in enumerate(Department.Department.departments):
+            print("average length of department " + str(department) + ":")
+            print(department.modify_average_of_lengths())
+
+    @staticmethod
+    def report_left_customers():
+        print("number of customers who left the system:")
+        print(Simulator.number_of_left_customers)
+
+    @staticmethod
+    def report_waiting_time_results():
+        sum_of_all_waiting_times = 0
+        for priority in Priority.Priority.priorities:
+            print("average waiting time in queues for priority " + str(priority.number) + ":")
+            print(priority.sum_of_waiting_times / priority.number_of_customers)
+
+            sum_of_all_waiting_times += priority.sum_of_waiting_times
+
+        print("average waiting time in queue for all customers:")
+        print(sum_of_all_waiting_times / Simulator.number_of_customers)
+
+    @staticmethod
+    def report_system_time_results():
+        sum_of_all_system_times = 0
+        for priority in Priority.Priority.priorities:
+            print("average system time for priority " + str(priority.number) + ":")
+            print(priority.sum_of_system_times / priority.number_of_customers)
+
+            sum_of_all_system_times += priority.sum_of_system_times
+
+        print("average system times for all customers:")
+        print(sum_of_all_system_times / Simulator.number_of_customers)
 
     @staticmethod
     def add_system_time(time):

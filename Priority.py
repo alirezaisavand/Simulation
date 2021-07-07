@@ -9,6 +9,12 @@ class Priority:
         self.service_times = {}
         self.waiting_times = {}
 
+    def add_customer_results(self, customer):
+        self.add_system_time(customer.get_system_time())
+        self.add_service_time(customer.get_service_time())
+        self.add_waiting_time(customer.get_waiting_time())
+        self.add_number_of_customers()
+
     def add_waiting_time(self, time):
         if time not in self.waiting_times:
             self.waiting_times[time] = 0

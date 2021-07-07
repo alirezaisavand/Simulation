@@ -62,6 +62,12 @@ class Reception:
         # todo correct the rates and scales of exponential random numbers
         return int(np.random.exponential(self.mu))
 
+    def modify_average_of_lengths(self):
+        sum_of_lengths = 0
+        for queue_len, time_len in self.lengths_of_queue:
+            sum_of_lengths += queue_len * time_len
+        return sum_of_lengths / Simulator.Simulator.time
+
     @staticmethod
     def set_reception(reception):
         Reception.reception = reception
