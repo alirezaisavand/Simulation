@@ -13,6 +13,7 @@ class Simulator:
     max_priority = 0
     number_of_left_customers = 0
     system_times = {}
+    unit = 100
 
     def __init__(self, N, lam, alpha, mu, MUs, max_priority, max_number_of_customers):
         # definition of departures

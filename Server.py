@@ -1,4 +1,5 @@
 import numpy as np
+import Simulator
 
 
 class Server:
@@ -10,4 +11,4 @@ class Server:
         self.available = is_available
 
     def get_service_time(self):
-        return int(np.random.exponential(self.mu))
+        return int(np.random.exponential(self.mu) * Simulator.Simulator.unit)
