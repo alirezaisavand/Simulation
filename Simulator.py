@@ -60,7 +60,7 @@ class Simulator:
         return
 
     def start_simulation(self):
-        customer = Customer.Customer(self.time)
+        customer = Customer.Customer(Simulator.time)
         self.events.append(Event.Arrival(customer, customer.arrival_time))
 
     def add_event(self, event):
