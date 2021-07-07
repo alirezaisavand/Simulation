@@ -189,4 +189,6 @@ class Simulator:
         Y = [cnt for time, cnt in Simulator.online_customers]
         plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
         plt.title("Number of customers in system during time")
+        plt.xlabel("time(unit)")
+        plt.ylabel("number of customers")
         plt.show()
