@@ -86,9 +86,9 @@ class Simulator:
         Simulator.report_waiting_time_results()
         Simulator.report_left_customers()
         Simulator.report_lengths_of_queues()
-        Simulator.draw_system_time_frequency()
 
-        Simulator.plot_number_of_online_customers()
+        Simulator.draw_system_time_frequency()
+        Simulator.draw_number_of_online_customers()
 
     @staticmethod
     def report_lengths_of_queues():
@@ -169,8 +169,9 @@ class Simulator:
             Simulator.online_customers.append((Simulator.time, Simulator.number_of_online_customers))
 
     @staticmethod
-    def plot_number_of_online_customers():
-        X = [data[0] for data in Simulator.online_customers]
-        Y = [data[1] for data in Simulator.online_customers]
-        plt.plot(X, Y)
+    def draw_number_of_online_customers():
+        X = [Simulator.normalize_time(time) for time, cnt in Simulator.online_customers]
+        Y = [cnt for time, cnt in Simulator.online_customers]
+        plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
+        plt.title("Number of customers in system during time")
         plt.show()
