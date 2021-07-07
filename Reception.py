@@ -1,53 +1,73 @@
 import Simulator
 import heapq
-import queue
+import numpy as np
+from collections import deque
+import Event
 
 
 class Reception:
+    reception = None
 
     def __init__(self, mu):
         self.mu = mu
 
-        self.queue = [(0, 0)] # (length, time)
-
+        self.queue = deque()
+        self.lengths_of_queue = []
         self.waiting_customers = 0
         self.last_time = 0
+        self.available = True
+        self.customers_in_queue = 0
 
-        self.events = queue.Queue()
+    def add_customer(self, customer):
+        self.add_to_queue(customer)
+        return self.process()
 
-    def add_customer(self, event):
-        self.throw_expired()
+    def add_to_queue(self, customer):
         self.change_capacity(1)
-        heapq.heappush(self.events, event)
-        if self.waiting_customers == 1:
-            self.process()
-        return
+        self.queue.append(customer)
 
-    def depart_customer(self):
-        self.throw_expired()
+    def pop_from_queue(self):
         self.change_capacity(-1)
-        heapq.heappop(self.events)
-        self.throw_expired()
-        if self.waiting_customers > 0:
-            self.process()
-        return
-
-    def throw_expired(self):
-        while len(self.events) > 0:
-            event = self.events[0]
-            if event.expired:
-                heapq.heappop(self.events)
-                continue
-            break
-        return
+        customer = self.queue.popleft()
+        while customer.exit_time != -1:
+            customer = self.queue.popleft()
+        return customer
 
     def change_capacity(self, value):
-        self.queue.append((self.waiting_customers, Simulator.Simulator.time - self.last_time))
+        # warning: pay attention to zero-length intervals
+        self.lengths_of_queue.append((self.customers_in_queue, Simulator.Simulator.time - self.last_time))
         self.last_time = Simulator.Simulator.time
-        self.waiting_customers += value
+        self.customers_in_queue += value
 
     def process(self):
-        event = heapq.heappop(self.events)
-        self.change_capacity(-1)
-        # todo prepare a new event for departments
-        return
+        if (not self.available) or (self.customers_in_queue == 0):
+            return None
+
+        self.available = False
+
+        customer = self.pop_from_queue()
+        customer.set_started_reception()
+
+        service_time = self.get_service_time()
+        # variables needed for customers service times
+        customer.change_sum_of_service_times(service_time)
+        customer.set_end_of_current_service(Simulator.Simulator.time + service_time)
+
+        return Event.EndReception(customer, Simulator.Simulator.time + service_time)
+
+    def set_available(self, is_available):
+        self.available = is_available
+
+    def get_service_time(self):
+        # todo correct the rates and scales of exponential random numbers
+        return int(np.random.exponential(self.mu))
+
+    def modify_average_of_lengths(self):
+        sum_of_lengths = 0
+        for queue_len, time_len in self.lengths_of_queue:
+            sum_of_lengths += queue_len * time_len
+        return sum_of_lengths / Simulator.Simulator.time
+
+    @staticmethod
+    def set_reception(reception):
+        Reception.reception = reception
