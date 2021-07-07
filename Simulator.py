@@ -101,27 +101,31 @@ class Simulator:
         sum_of_all_waiting_times = 0
         for priority in Priority.Priority.priorities:
             print("average waiting time in queues for priority " + str(priority.number) + ":")
-            print(priority.sum_of_waiting_times / priority.number_of_customers)
+            print(Simulator.normalize_time(priority.sum_of_waiting_times / priority.number_of_customers))
 
             sum_of_all_waiting_times += priority.sum_of_waiting_times
 
         print("average waiting time in queue for all customers:")
-        print(sum_of_all_waiting_times / Simulator.number_of_customers)
+        print(Simulator.normalize_time(sum_of_all_waiting_times / Simulator.number_of_customers))
 
     @staticmethod
     def report_system_time_results():
         sum_of_all_system_times = 0
         for priority in Priority.Priority.priorities:
             print("average system time for priority " + str(priority.number) + ":")
-            print(priority.sum_of_system_times / priority.number_of_customers)
+            print(Simulator.normalize_time(priority.sum_of_system_times / priority.number_of_customers))
 
             sum_of_all_system_times += priority.sum_of_system_times
 
         print("average system times for all customers:")
-        print(sum_of_all_system_times / Simulator.number_of_customers)
+        print(Simulator.normalize_time(sum_of_all_system_times / Simulator.number_of_customers))
 
     @staticmethod
     def add_system_time(time):
         if time not in Simulator.system_times:
             Simulator.system_times[time] = 0
         Simulator.system_times[time] += 1
+
+    @staticmethod
+    def normalize_time(time):
+        return time / Simulator.unit
