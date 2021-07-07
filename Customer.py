@@ -1,4 +1,5 @@
 import numpy as np
+import State
 
 
 class Customer:
@@ -14,6 +15,8 @@ class Customer:
         self.server = None
         self.department = None
         self.started_reception = False
+        self.sum_of_service_times = 0
+        self.end_of_current_service = -1
 
     def set_server(self, server):
         self.server = server
@@ -29,6 +32,21 @@ class Customer:
 
     def get_system_time(self):
         return self.exit_time - self.arrival_time
+
+    def change_sum_of_service_times(self, value):
+        self.sum_of_service_times += value
+
+    def set_end_of_current_service(self, time):
+        self.end_of_current_service = time
+
+    def get_state(self):
+        if not self.started_reception:
+            return State.State.in_reception_queue
+        elif self.department is None:
+            return State.State.reception
+        elif self.server is None:
+            return State.State.in_department_queue
+        return State.State.preparing_order
 
     @staticmethod
     def generate_priority():

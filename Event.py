@@ -4,6 +4,7 @@ import Department
 import Customer
 import Reception
 import Priority
+import State
 
 
 class Event:
@@ -98,7 +99,13 @@ class EndService(Event):
 
 class LeaveSystem(Event):
     def handle_event(self):
+
         self.customer.set_exit_time(self.time)
+
+        # variables needed for customers service times
+        customer_state = self.customer.get_state()
+        if customer_state == State.State.reception or customer_state == State.State.preparing_order:
+            self.customer.change_sum_of_service_times(-(self.customer.end_of_current_service - self.time))
 
         # updating simulations variables
         self.update_simulation_variables()
@@ -115,14 +122,15 @@ class LeaveSystem(Event):
 
     def get_results(self):
         results = []
-        if not self.customer.started_reception:
+        customer_state = self.customer.get_state()
+        if customer_state == State.State.in_reception_queue:
             Reception.Reception.reception.change_capacity(-1)
-        elif self.customer.department is None:
+        elif customer_state == State.State.reception:
             Reception.Reception.reception.set_available(True)
             res = Reception.Reception.reception.process()
             if res is not None:
                 results.append(res)
-        elif self.customer.server is None:
+        elif customer_state == State.State.in_department_queue:
             self.customer.department.change_capacity(-1)
         else:
             self.customer.server.set_available(True)

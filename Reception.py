@@ -43,12 +43,17 @@ class Reception:
         if (not self.available) or (self.customers_in_queue == 0):
             return None
 
+        self.available = False
+
         customer = self.pop_from_queue()
         customer.set_started_reception()
 
-        self.available = False
+        service_time = self.get_service_time()
+        # variables needed for customers service times
+        customer.change_sum_of_service_times(service_time)
+        customer.set_end_of_current_service(Simulator.Simulator.time + service_time)
 
-        return Event.EndReception(customer, Simulator.Simulator.time + self.get_service_time())
+        return Event.EndReception(customer, Simulator.Simulator.time + service_time)
 
     def set_available(self, is_available):
         self.available = is_available
