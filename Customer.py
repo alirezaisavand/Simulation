@@ -2,6 +2,7 @@ import numpy as np
 import State
 import Simulator
 
+
 class Customer:
     lam = 0
     alpha = 0
