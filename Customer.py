@@ -9,7 +9,7 @@ class Customer:
 
     def __init__(self, time):
         self.patience = int(np.random.exponential(Customer.alpha) * Simulator.Simulator.unit)
-        self.arrival_time = int(time + np.random.exponential(Customer.lam) * Simulator.Simulator.unit)
+        self.arrival_time = int(time + np.random.exponential(1 / Customer.lam) * Simulator.Simulator.unit)
         self.priority = Customer.generate_priority()
         self.exit_time = -1
         self.server = None
