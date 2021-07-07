@@ -4,6 +4,9 @@ import Customer
 import heapq
 import Event
 import Priority
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 
 
 class Simulator:
@@ -81,6 +84,7 @@ class Simulator:
         Simulator.report_waiting_time_results()
         Simulator.report_left_customers()
         Simulator.report_lengths_of_queues()
+        Simulator.draw_system_time_frequency()
 
     @staticmethod
     def report_lengths_of_queues():
@@ -129,3 +133,23 @@ class Simulator:
     @staticmethod
     def normalize_time(time):
         return time / Simulator.unit
+
+    @staticmethod
+    def draw_system_time_frequency():
+
+        for priority in Priority.Priority.priorities:
+            X = list(priority.service_times.keys())
+            Y = list(priority.service_times.values())
+            # plt.scatter(x=X, y=Y)
+            # plt.hist(x=X, weights=Y, bin=30)
+            plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
+
+            plt.show()
+            # print(priority.service_times)
+            # X = np.array(priority.service_times.keys().tolist())
+            # print(X)
+            # print(X[0])
+            # Y = np.array(priority.service_times.values())
+            # plt.hist(x=X, y=Y)
+            # print(X)
+            # print(Y)
