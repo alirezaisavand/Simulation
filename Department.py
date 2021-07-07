@@ -67,6 +67,7 @@ class Department:
         customer.set_server(server)
 
         service_time = server.get_service_time()
+
         # variables needed for customers service times
         customer.change_sum_of_service_times(service_time)
         customer.set_end_of_current_service(Simulator.Simulator.time + service_time)
