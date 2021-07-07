@@ -4,7 +4,7 @@ import Customer
 import heapq
 import Event
 import Priority
-
+from matplotlib import pyplot as plt
 
 class Simulator:
     time = 0
@@ -14,6 +14,8 @@ class Simulator:
     number_of_left_customers = 0
     system_times = {}
     unit = 100
+    online_customers = [(0, 0)]
+    number_of_online_customers = 0
 
     def __init__(self, N, lam, alpha, mu, MUs, max_priority, max_number_of_customers):
         # definition of departures
@@ -82,6 +84,8 @@ class Simulator:
         Simulator.report_left_customers()
         Simulator.report_lengths_of_queues()
 
+        Simulator.plot_number_of_online_customers()
+
     @staticmethod
     def report_lengths_of_queues():
         print("average length of main queue:")
@@ -129,3 +133,20 @@ class Simulator:
     @staticmethod
     def normalize_time(time):
         return time / Simulator.unit
+
+    @staticmethod
+    def change_number_of_online_customers(value):
+        Simulator.number_of_online_customers += value
+        # only consider last value for each time
+        last_time = Simulator.online_customers[-1][0]
+        if last_time == Simulator.time:
+            Simulator.online_customers[-1] = (Simulator.time, Simulator.number_of_online_customers)
+        else:
+            Simulator.online_customers.append((Simulator.time, Simulator.number_of_online_customers))
+
+    @staticmethod
+    def plot_number_of_online_customers():
+        X = [data[0] for data in Simulator.online_customers]
+        Y = [data[1] for data in Simulator.online_customers]
+        plt.plot(X, Y)
+        plt.show()

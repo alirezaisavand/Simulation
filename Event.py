@@ -31,7 +31,7 @@ class Arrival(Event):
         return self.get_results()
 
     def update_simulation_variables(self):
-        # todo waiting times still remain
+        Simulator.Simulator.change_number_of_online_customers(1)
         Simulator.Simulator.number_of_customers += 1
 
     def get_results(self):
@@ -94,6 +94,7 @@ class EndService(Event):
         return results
 
     def update_simulation_variables(self):
+        Simulator.Simulator.change_number_of_online_customers(-1)
         Simulator.Simulator.add_system_time(self.customer.get_system_time())
 
         Priority.Priority.get_priority_by_number(self.customer.priority).add_customer_results(self.customer)
@@ -116,6 +117,7 @@ class LeaveSystem(Event):
         return self.get_results()
 
     def update_simulation_variables(self):
+        Simulator.Simulator.change_number_of_online_customers(-1)
         Simulator.Simulator.increase_number_of_left_customers()
         Simulator.Simulator.add_system_time(self.customer.get_system_time())
 
