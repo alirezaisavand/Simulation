@@ -13,6 +13,7 @@ class Simulator:
     max_priority = 0
     number_of_left_customers = 0
     system_times = {}
+    unit = 100
 
     def __init__(self, N, lam, alpha, mu, MUs, max_priority, max_number_of_customers):
         # definition of departures
@@ -87,7 +88,7 @@ class Simulator:
         print(Reception.Reception.reception.modify_average_of_lengths())
 
         for i, department in enumerate(Department.Department.departments):
-            print("average length of department " + str(department) + ":")
+            print("average length of department " + str(i) + ":")
             print(department.modify_average_of_lengths())
 
     @staticmethod

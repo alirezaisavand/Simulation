@@ -60,7 +60,7 @@ class Reception:
 
     def get_service_time(self):
         # todo correct the rates and scales of exponential random numbers
-        return int(np.random.exponential(self.mu))
+        return int(np.random.exponential(self.mu) * Simulator.Simulator.unit)
 
     def modify_average_of_lengths(self):
         sum_of_lengths = 0
