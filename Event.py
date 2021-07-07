@@ -57,6 +57,8 @@ class EndReception(Event):
         department = np.random.choice(Department.Department.departments)
         self.customer.set_department(department)
 
+        self.update_simulation_variables()
+
         return self.get_results()
 
     def get_results(self):
@@ -80,6 +82,7 @@ class EndService(Event):
     def handle_event(self):
         self.customer.set_exit_time(self.time)
         self.customer.server.set_available(True)
+        self.update_simulation_variables()
 
         return self.get_results()
 

@@ -13,7 +13,6 @@ class Reception:
 
         self.queue = deque()
         self.lengths_of_queue = []
-        self.waiting_customers = 0
         self.last_time = 0
         self.available = True
         self.customers_in_queue = 0
