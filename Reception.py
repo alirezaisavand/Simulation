@@ -1,5 +1,6 @@
 import Simulator
 import heapq
+import queue
 
 
 class Reception:
@@ -7,13 +8,12 @@ class Reception:
     def __init__(self, mu):
         self.mu = mu
 
-        self.queue = [(0, 0)]
+        self.queue = [(0, 0)] # (length, time)
 
         self.waiting_customers = 0
         self.last_time = 0
 
-        self.events = []
-        heapq.heapify(self.events)
+        self.events = queue.Queue()
 
     def add_customer(self, event):
         self.throw_expired()

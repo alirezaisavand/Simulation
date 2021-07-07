@@ -6,7 +6,7 @@ class Department():
         self.customers_in_queue = 0
         self.lengths_of_queue = []
 
-    def add(self, event):
+    def add_customer(self, event):
         pass
 
     def depart(self):
