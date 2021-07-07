@@ -80,6 +80,18 @@ class Department:
             sum_of_lengths += queue_len * time_len
         return sum_of_lengths / Simulator.Simulator.time
 
+    def get_lengths_points(self):
+        points = [(0, 0)]
+        last_time = 0
+        for queue_len, time_len in self.lengths_of_queue:
+            if time_len == 0:
+                continue
+            points.append((last_time, queue_len))
+            last_time += time_len
+        return points
+
     @staticmethod
     def add_department(department):
         Department.departments.append(department)
+
+

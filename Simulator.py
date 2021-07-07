@@ -90,6 +90,7 @@ class Simulator:
         Simulator.draw_waiting_time_frequency()
 
         Simulator.draw_number_of_online_customers()
+        Simulator.draw_lengths_of_queues()
 
     @staticmethod
     def report_lengths_of_queues():
@@ -97,7 +98,7 @@ class Simulator:
         print(Reception.Reception.reception.modify_average_of_lengths())
 
         for i, department in enumerate(Department.Department.departments):
-            print("average length of department " + str(i) + ":")
+            print("average length of department " + str(i + 1) + ":")
             print(department.modify_average_of_lengths())
 
     @staticmethod
@@ -172,9 +173,30 @@ class Simulator:
             Simulator.online_customers.append((Simulator.time, Simulator.number_of_online_customers))
 
     @staticmethod
-    def draw_number_of_online_customers():
-        X = [Simulator.normalize_time(time) for time, cnt in Simulator.online_customers]
-        Y = [cnt for time, cnt in Simulator.online_customers]
-        plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
-        plt.title("Number of customers in system during time")
+    def draw_time_plot(points, bins, title, xlabel, ylabel):
+        X = [Simulator.normalize_time(time) for time, cnt in points]
+        Y = [cnt for time, cnt in points]
+        plt.hist(x=X, weights=Y, bins=bins, edgecolor='w')
+        plt.title(title)
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
         plt.show()
+
+    @staticmethod
+    def draw_number_of_online_customers():
+        title = "Number of customers in system during time"
+        xlabel = "time(unit)"
+        ylabel = "number of customers"
+        Simulator.draw_time_plot(Simulator.online_customers, 100, title, xlabel, ylabel)
+
+    @staticmethod
+    def draw_lengths_of_queues():
+        xlabel = "time(unit)"
+        ylabel = "length of queue"
+
+        title = "length of main queue"
+        Simulator.draw_time_plot(Reception.Reception.reception.get_lengths_points(), 100, title, xlabel, ylabel)
+
+        for i, department in enumerate(Department.Department.departments):
+            title = "length of queue in partition " + str(i + 1)
+            Simulator.draw_time_plot(department.get_lengths_points(), 100, title, xlabel, ylabel)
