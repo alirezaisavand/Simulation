@@ -87,7 +87,7 @@ class Simulator:
         print(Reception.Reception.reception.modify_average_of_lengths())
 
         for i, department in enumerate(Department.Department.departments):
-            print("average length of department " + str(department) + ":")
+            print("average length of department " + str(i) + ":")
             print(department.modify_average_of_lengths())
 
     @staticmethod
