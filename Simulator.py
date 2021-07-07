@@ -32,6 +32,7 @@ class Simulator:
         # set constants
         Simulator.max_priority = max_priority
         Simulator.max_number_of_customers = max_number_of_customers
+
         # set up heap of events
         self.events = []
         heapq.heapify(self.events)
