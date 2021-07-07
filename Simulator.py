@@ -84,7 +84,8 @@ class Simulator:
         Simulator.report_waiting_time_results()
         Simulator.report_left_customers()
         Simulator.report_lengths_of_queues()
-        Simulator.draw_system_time_frequency()
+        Simulator.draw_service_time_frequency()
+        Simulator.draw_waiting_time_frequency()
 
     @staticmethod
     def report_lengths_of_queues():
@@ -136,20 +137,34 @@ class Simulator:
 
     @staticmethod
     def draw_system_time_frequency():
-
         for priority in Priority.Priority.priorities:
-            X = list(priority.service_times.keys())
+            X = np.array(list(priority.service_times.keys())) / Simulator.unit
             Y = list(priority.service_times.values())
-            # plt.scatter(x=X, y=Y)
-            # plt.hist(x=X, weights=Y, bin=30)
-            plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
 
+            plt.title('service time for priority = ' + str(priority.number))
+            plt.ylabel('frequency')
+            plt.xlabel('service time (Unit)')
+            plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
             plt.show()
-            # print(priority.service_times)
-            # X = np.array(priority.service_times.keys().tolist())
-            # print(X)
-            # print(X[0])
-            # Y = np.array(priority.service_times.values())
-            # plt.hist(x=X, y=Y)
-            # print(X)
-            # print(Y)
+
+    @staticmethod
+    def draw_plot(X, Y, kind, number):
+        plt.title(kind + ' time for priority = ' + number)
+        plt.ylabel('frequency')
+        plt.xlabel(kind + ' time (Unit)')
+        plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
+        plt.show()
+
+    @staticmethod
+    def draw_service_time_frequency():
+        for priority in Priority.Priority.priorities:
+            X = np.array(list(priority.service_times.keys())) / Simulator.unit
+            Y = list(priority.service_times.values())
+            Simulator.draw_plot(X, Y, 'service', str(priority.number))
+
+    @staticmethod
+    def draw_waiting_time_frequency():
+        for priority in Priority.Priority.priorities:
+            X = np.array(list(priority.waiting_times.keys())) / Simulator.unit
+            Y = list(priority.waiting_times.values())
+            Simulator.draw_plot(X, Y, 'waiting', str(priority.number))
