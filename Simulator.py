@@ -140,18 +140,6 @@ class Simulator:
         return time / Simulator.unit
 
     @staticmethod
-    def draw_system_time_frequency():
-        for priority in Priority.Priority.priorities:
-            X = np.array(list(priority.service_times.keys())) / Simulator.unit
-            Y = list(priority.service_times.values())
-
-            plt.title('service time for priority = ' + str(priority.number))
-            plt.ylabel('frequency')
-            plt.xlabel('service time (Unit)')
-            plt.hist(x=X, weights=Y, bins=100, edgecolor='w')
-            plt.show()
-
-    @staticmethod
     def draw_plot(X, Y, kind, number):
         plt.title(kind + ' time for priority = ' + number)
         plt.ylabel('frequency')
