@@ -17,6 +17,8 @@ class Simulator:
     number_of_left_customers = 0
     system_times = {}
     unit = 100
+    online_customers = [(0, 0)]
+    number_of_online_customers = 0
 
     def __init__(self, N, lam, alpha, mu, MUs, max_priority, max_number_of_customers):
         # definition of departures
@@ -86,6 +88,8 @@ class Simulator:
         Simulator.report_lengths_of_queues()
         Simulator.draw_service_time_frequency()
         Simulator.draw_waiting_time_frequency()
+
+        Simulator.plot_number_of_online_customers()
 
     @staticmethod
     def report_lengths_of_queues():
@@ -168,3 +172,20 @@ class Simulator:
             X = np.array(list(priority.waiting_times.keys())) / Simulator.unit
             Y = list(priority.waiting_times.values())
             Simulator.draw_plot(X, Y, 'waiting', str(priority.number))
+
+    @staticmethod
+    def change_number_of_online_customers(value):
+        Simulator.number_of_online_customers += value
+        # only consider last value for each time
+        last_time = Simulator.online_customers[-1][0]
+        if last_time == Simulator.time:
+            Simulator.online_customers[-1] = (Simulator.time, Simulator.number_of_online_customers)
+        else:
+            Simulator.online_customers.append((Simulator.time, Simulator.number_of_online_customers))
+
+    @staticmethod
+    def plot_number_of_online_customers():
+        X = [data[0] for data in Simulator.online_customers]
+        Y = [data[1] for data in Simulator.online_customers]
+        plt.plot(X, Y)
+        plt.show()
