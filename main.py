@@ -3,14 +3,15 @@ import matplotlib.pyplot as plt
 
 
 def calc_server_rates(N, number_of_servers, lam, mu, alpha):
-    rates = [i for i in range(1, 11)]
+    rates = [i * 0.5 for i in range(1, 11)]
     lengths_of_queues = []
     for rate in rates:
+        print(rate)
         Simulator.Simulator.reset()
         Mus = []
         for i in range(N):
             Mus.append([rate] * number_of_servers)
-        simulator = Simulator.Simulator(N, lam, alpha, mu, Mus, 4, 100 * 1000)
+        simulator = Simulator.Simulator(N, lam, alpha, mu, Mus, 4, 200 * 1000)
         simulator.simulate(report=False)
         lengths_of_queues.append(Simulator.Simulator.get_sum_of_lengths_of_queues())
 
@@ -31,7 +32,7 @@ if __name__ == '__main__':
         MUs.append(list(map(int, input().split())))
         avg_servers += len(MUs[-1]) / N
 
-    simulator = Simulator.Simulator(N, lam, alpha, mu, MUs, 4, 100 * 1000)
+    simulator = Simulator.Simulator(N, lam, alpha, mu, MUs, 4, 10 * 1000 * 1000)
     simulator.simulate()
 
     calc_server_rates(N, int(avg_servers), lam, mu, alpha)
