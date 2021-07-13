@@ -44,7 +44,7 @@ class Simulator:
         self.events = []
         heapq.heapify(self.events)
 
-    def simulate(self):
+    def simulate(self, report=True):
         # todo here we have to add the start event
         # instead, firstly, we add an arrival event
         self.start_simulation()
@@ -61,7 +61,8 @@ class Simulator:
             for result in results:
                 self.add_event(result)
 
-        self.report_results()
+        if report == True:
+            self.report_results()
         # todo demonstrate the result of this simulation
 
         return
@@ -203,6 +204,13 @@ class Simulator:
             Simulator.draw_time_plot(department.get_lengths_points(), 100, title, xlabel, ylabel)
 
     @staticmethod
+    def get_sum_of_lengths_of_queues():
+        sum_of_lengths = 0
+        for department in Department.Department.departments:
+            sum_of_lengths += department.modify_average_of_lengths()
+        return sum_of_lengths
+
+    @staticmethod
     def reset():
         Simulator.time = 0
         Simulator.number_of_customers = 0
@@ -219,4 +227,3 @@ class Simulator:
         Priority.Priority.reset()
         Reception.Reception.reset()
         Server.Server.reset()
-
