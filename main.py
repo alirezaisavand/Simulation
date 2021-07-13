@@ -2,6 +2,7 @@ import Simulator
 
 
 if __name__ == '__main__':
+    Simulator.Simulator.reset()
     N, lam, mu, alpha = map(int, input().split())
     MUs = []
 

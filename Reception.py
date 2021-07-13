@@ -81,3 +81,7 @@ class Reception:
     @staticmethod
     def set_reception(reception):
         Reception.reception = reception
+
+    @staticmethod
+    def reset():
+        Reception.reception = None

@@ -62,3 +62,9 @@ class Customer:
             if r < p:
                 return i
         return -1
+
+    @staticmethod
+    def reset():
+        Customer.lam = 0
+        Customer.alpha = 0
+        Customer.priority_CDF = [0.50, 0.70, 0.85, 0.95, 1.0]

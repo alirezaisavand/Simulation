@@ -12,3 +12,7 @@ class Server:
 
     def get_service_time(self):
         return int(np.random.exponential(1 / self.mu) * Simulator.Simulator.unit)
+
+    @staticmethod
+    def reset():
+        pass

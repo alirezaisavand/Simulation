@@ -39,3 +39,7 @@ class Priority:
     @staticmethod
     def get_priority_by_number(priority_number):
         return Priority.priorities[priority_number]
+
+    @staticmethod
+    def reset():
+        Priority.priorities = []

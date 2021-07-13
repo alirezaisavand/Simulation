@@ -7,6 +7,7 @@ import Priority
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+import Server
 
 
 class Simulator:
@@ -212,3 +213,22 @@ class Simulator:
         for i, department in enumerate(Department.Department.departments):
             title = "length of queue in partition " + str(i + 1)
             Simulator.draw_time_plot(department.get_lengths_points(), 100, title, xlabel, ylabel)
+
+    @staticmethod
+    def reset():
+        Simulator.time = 0
+        Simulator.number_of_customers = 0
+        Simulator.max_number_of_customers = 0
+        Simulator.max_priority = 0
+        Simulator.number_of_left_customers = 0
+        Simulator.system_times = {}
+        Simulator.unit = 100
+        Simulator.online_customers = [(0, 0)]
+        Simulator.number_of_online_customers = 0
+
+        Customer.Customer.reset()
+        Department.Department.reset()
+        Priority.Priority.reset()
+        Reception.Reception.reset()
+        Server.Server.reset()
+

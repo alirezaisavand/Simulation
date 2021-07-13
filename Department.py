@@ -94,4 +94,6 @@ class Department:
     def add_department(department):
         Department.departments.append(department)
 
-
+    @staticmethod
+    def reset():
+        Department.departments = []
